@@ -1,12 +1,14 @@
 package com.devdurex.workshopmongo.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.devdurex.workshopmongo.domain.User;
 import com.devdurex.workshopmongo.repository.UserRepository;
+import com.devdurex.workshopmongo.services.exception.ObjectNotFoundException;
 
 @Service
 public class UserService {
@@ -18,4 +20,14 @@ public class UserService {
 		return repo.findAll();		
 	}
 
+	
+	public User findbyId(String id) {
+		//User user = repo.findOne(id);
+		Optional<User> user = repo.findById(id);
+		if (user == null) {
+			throw new ObjectNotFoundException("Objeto não encontrado");
+		}
+		
+		return user.get();		
+	}
 }
